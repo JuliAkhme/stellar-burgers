@@ -17,6 +17,7 @@ import { useDispatch } from '../../services/store';
 import { ProtectedRoute } from '../protected-route';
 import { useEffect } from 'react';
 import { checkUserAuth } from '../../services/slices/userSlice';
+import { ingredientsThunk } from '../../services/slices/ingredientsSlice';
 
 const App = () => {
   const navigate = useNavigate();
@@ -26,6 +27,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(checkUserAuth());
+    dispatch(ingredientsThunk());
   }, [dispatch]);
 
   return (
@@ -35,6 +37,7 @@ const App = () => {
         <Route path='/' element={<ConstructorPage />} />
         <Route path='/ingredients/:id' element={<IngredientDetails />} />
         <Route path='/feed' element={<Feed />} />
+        <Route path='/feed/:number' element={<OrderInfo />} />
         <Route
           path='/login'
           element={
@@ -80,6 +83,14 @@ const App = () => {
           element={
             <ProtectedRoute>
               <ProfileOrders />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/profile/orders/:number'
+          element={
+            <ProtectedRoute>
+              <OrderInfo />
             </ProtectedRoute>
           }
         />
