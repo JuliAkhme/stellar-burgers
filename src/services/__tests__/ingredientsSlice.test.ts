@@ -1,19 +1,11 @@
 import {
-  TIngredientsState,
+  initialState,
   ingredientsThunk,
   ingredientsReducer
 } from '../slices/ingredientsSlice';
 import { TIngredient } from '@utils-types';
 
 describe('Тест редьюсера слайса ingredientsSlice', () => {
-  const initialState: TIngredientsState = {
-    buns: [],
-    mains: [],
-    sauces: [],
-    loading: true,
-    error: null
-  };
-
   it('Тест статуса pending', async () => {
     const requestAction = { type: ingredientsThunk.pending.type };
     const state = ingredientsReducer(initialState, requestAction);
