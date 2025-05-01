@@ -2,7 +2,7 @@ import { getIngredientsApi } from '@api';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { TIngredient } from '@utils-types';
 
-type TIngredientsState = {
+export type TIngredientsState = {
   buns: TIngredient[];
   mains: TIngredient[];
   sauces: TIngredient[];
@@ -39,9 +39,11 @@ export const ingredientsSlice = createSlice({
       .addCase(ingredientsThunk.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
-        state.buns = action.payload;
-        state.mains = action.payload;
-        state.sauces = action.payload;
+        state.buns = action.payload.filter((item) => item.type === 'bun');
+        state.mains = action.payload.filter(
+          (item) => item.type !== 'bun' && item.type !== 'sauce'
+        );
+        state.sauces = action.payload.filter((item) => item.type === 'sauce');
       })
       .addCase(ingredientsThunk.rejected, (state, action) => {
         state.loading = false;
@@ -51,4 +53,4 @@ export const ingredientsSlice = createSlice({
 });
 
 export const { getIngredients } = ingredientsSlice.selectors;
-export const ingerdientsReducer = ingredientsSlice.reducer;
+export const ingredientsReducer = ingredientsSlice.reducer;
